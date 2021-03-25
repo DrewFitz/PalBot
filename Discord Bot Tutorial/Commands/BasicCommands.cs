@@ -10,12 +10,15 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Enums;
+using DSharpPlus.Interactivity.Extensions;
 using Emzi0767.Utilities;
 using Newtonsoft.Json;
 
 namespace Discord_Bot_Tutorial.Commands
 {
-    public class FunCommands : BaseCommandModule
+    public class BasicCommands : BaseCommandModule
     {
         [Command("ping")]
         [Description("Returns pong")]
@@ -49,68 +52,8 @@ namespace Discord_Bot_Tutorial.Commands
                 .ConfigureAwait(false);
         }
 
-        [Command("insult")]
-        [Description("Generate a sick burn")]
-        public async Task Insult(CommandContext ctx)
-        {
-            var insult = await GetAsync("https://evilinsult.com/generate_insult.php?lang=en");
-
-            await ctx.Channel
-                .SendMessageAsync(insult)
-                .ConfigureAwait(false);
-        }
-
-        private struct ShibaResponse
-        {
-            [JsonProperty("message")] public string imageURL;
-        }
-
-        [Command("shiba")]
-        public async Task Shiba(CommandContext ctx)
-        {
-            var response = await GetAsync("https://dog.ceo/api/breed/shiba/images/random");
-            var shibaResponse = JsonConvert.DeserializeObject<ShibaResponse>(response);
-            var imageURL = shibaResponse.imageURL;
-            var decodedImageURL = HttpUtility.UrlDecode(imageURL);
-
-            var embed = new DiscordEmbedBuilder
-            {
-                ImageUrl = decodedImageURL
-            }.Build();
-
-            await ctx.Channel
-                .SendMessageAsync(embed: embed)
-                .ConfigureAwait(false);
-        }
-
-        [Command("shiba2")]
-        public async Task Shiba2(CommandContext ctx)
-        {
-            var response = await GetAsync("http://shibe.online/api/shibes?count=1");
-            var shibaResponse = JsonConvert.DeserializeObject<string[]>(response);
-            var imageURL = shibaResponse.FirstOrDefault();
-            if (imageURL == null)
-            {
-                await ctx.Channel
-                    .SendMessageAsync("Could not load shiba image. :sob:")
-                    .ConfigureAwait(false);
-
-                return;
-            }
-
-            var decodedImageURL = HttpUtility.UrlDecode(imageURL);
-
-            var embed = new DiscordEmbedBuilder
-            {
-                ImageUrl = decodedImageURL
-            }.Build();
-
-            await ctx.Channel
-                .SendMessageAsync(embed: embed)
-                .ConfigureAwait(false);
-        }
-
         [Command("gameidea")]
+        [Description("Generate a game idea")]
         public async Task GameIdea(CommandContext ctx)
         {
             // BASED ON THE BAFTA YGD GAME IDEA GENERATOR
@@ -211,19 +154,6 @@ namespace Discord_Bot_Tutorial.Commands
             await ctx.Channel
                 .SendMessageAsync(embed: embed)
                 .ConfigureAwait(false);
-        }
-
-        private async Task<string> GetAsync(string uri)
-        {
-            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            using (HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return await reader.ReadToEndAsync();
-            }
         }
     }
 }

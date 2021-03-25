@@ -45,12 +45,13 @@ namespace Discord_Bot_Tutorial
                 StringPrefixes = new string[] { configJson.Prefix },
                 EnableMentionPrefix = true,
                 EnableDms = false,
-                DmHelp = true,
+                DmHelp = true
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
-            Commands.RegisterCommands<FunCommands>();
-            
+            Commands.RegisterCommands<BasicCommands>();
+            Commands.RegisterCommands<GetURLCommands>();
+
             await Client.ConnectAsync();
 
             await Task.Delay(-1);
