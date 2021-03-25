@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Discord_Bot_Tutorial.Commands;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.EventArgs;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Discord_Bot_Tutorial
@@ -13,7 +17,7 @@ namespace Discord_Bot_Tutorial
     public class Bot
     {
         public DiscordClient Client { get; private set; }
-        public CommandsNextModule Commands { get; private set; }
+        public CommandsNextExtension Commands { get; private set; }
         
         public async Task RunAsync()
         {
@@ -30,8 +34,7 @@ namespace Discord_Bot_Tutorial
                 Token = configJson.Token,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true,
-                LogLevel = LogLevel.Debug,
-                UseInternalLogHandler = true
+                MinimumLogLevel = LogLevel.Debug,
             };
             Client = new DiscordClient(config);
             
@@ -39,19 +42,21 @@ namespace Discord_Bot_Tutorial
 
             var commandsConfig = new CommandsNextConfiguration
             {
-                StringPrefix = configJson.Prefix,
+                StringPrefixes = new string[] { configJson.Prefix },
                 EnableMentionPrefix = true,
-                EnableDms = false
+                EnableDms = false,
+                DmHelp = true,
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
-
+            Commands.RegisterCommands<FunCommands>();
+            
             await Client.ConnectAsync();
 
             await Task.Delay(-1);
         }
 
-        private Task OnClientReady(ReadyEventArgs e)
+        private Task OnClientReady(DiscordClient client, ReadyEventArgs e)
         {
             return Task.CompletedTask;
         }
