@@ -31,10 +31,6 @@ jobs:
       run: |
         echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
 
-    - name: Copy deployment file
-      run: |
-        cp .deployment ${{ env.DOTNET_ROOT }}/myapp/.deployment
-
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
