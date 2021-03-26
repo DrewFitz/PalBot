@@ -1,2 +1,0 @@
-[config]
-command = start /b "%DEPLOYMENT_TARGET%\Discord Bot Tutorial.exe"
