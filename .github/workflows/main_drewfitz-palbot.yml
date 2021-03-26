@@ -31,6 +31,9 @@ jobs:
       run: |
         echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
         
+    - name: check pwd
+      run: pwd
+        
     - name: Copy deployment file
       run: |
         cp .deployment > ${{ env.DOTNET_ROOT }}/myapp/.deployment
