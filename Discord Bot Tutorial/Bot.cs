@@ -21,6 +21,8 @@ namespace Discord_Bot_Tutorial
         
         public async Task RunAsync()
         {
+            var root = Environment.GetEnvironmentVariable("WEBROOT_PATH");
+            var path = Path.Combine(root, "config.json");
             var json = string.Empty;
             
             using (var fs = File.OpenRead("config.json"))
