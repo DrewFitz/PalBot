@@ -22,10 +22,14 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build "Discord Bot Tutorial/Discord Bot Tutorial.csproj" --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish "Discord Bot Tutorial/Discord Bot Tutorial.csproj" -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+    - name: Copy discord token from github secrets
+      run: |
+        echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
