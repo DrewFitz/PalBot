@@ -1,2 +1,2 @@
 [config]
-command = Start-Process "%DEPLOYMENT_TARGET%\Discord Bot Tutorial.exe"
+command = "start %DEPLOYMENT_TARGET%\Discord Bot Tutorial.exe"
