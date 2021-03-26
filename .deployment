@@ -1,2 +1,2 @@
 [config]
-command = "DEPLOYMENT_TARGET\Discord Bot Tutorial.exe"
+command = "%DEPLOYMENT_TARGET%\Discord Bot Tutorial.exe"
