@@ -58,3 +58,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_7c5757d50554428aacfb826d04f88b35 }}
         package: .
+        startup-command: ${{ env.DOTNET_ROOT }}/myapp/Discord\ Bot\ Tutorial.exe
