@@ -30,16 +30,10 @@ jobs:
     - name: Copy server config.js from github secrets
       run: |
         echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
-        
-    - name: check pwd
-      run: pwd
-
-    - name: cat existing
-      run: cat ${{ env.DOTNET_ROOT }}/myapp/.deployment
 
     - name: Copy deployment file
       run: |
-        cp .deployment > ${{ env.DOTNET_ROOT }}/myapp/.deployment
+        cp .deployment ${{ env.DOTNET_ROOT }}/myapp/.deployment
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
