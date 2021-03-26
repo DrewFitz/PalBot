@@ -33,7 +33,10 @@ jobs:
         
     - name: check pwd
       run: pwd
-        
+
+    - name: cat existing
+      run: cat ${{ env.DOTNET_ROOT }}/myapp/.deployment
+
     - name: Copy deployment file
       run: |
         cp .deployment > ${{ env.DOTNET_ROOT }}/myapp/.deployment
