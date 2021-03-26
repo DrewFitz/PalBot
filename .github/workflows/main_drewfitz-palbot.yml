@@ -22,14 +22,10 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Build with dotnet
-      run: dotnet build "Discord Bot Tutorial/Discord Bot Tutorial.csproj" --configuration Release
+      run: dotnet build --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish "Discord Bot Tutorial/Discord Bot Tutorial.csproj" -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-    - name: Copy discord token from github secrets
-      run: |
-        echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
@@ -56,5 +52,5 @@ jobs:
       with:
         app-name: 'drewfitz-palbot'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_838d6d16286348c59e4c156ecdeb6963 }}
         package: .
