@@ -28,11 +28,8 @@ jobs:
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
       
     - name: Copy server config.js from github secrets
-      run: echo '${APPCONFIGSECRET}' > ${DOTNETAPPROOT}/myapp/config.json
-      shell: bash
-      env:
-        DOTNETAPPROOT: ${{ env.DOTNET_ROOT }}
-        APPCONFIGSECRET: ${{ secrets.AppConfigJson }}
+      run: |
+        echo '{"token":"${{ secrets.DISCORDAPITOKEN }}", "prefix": "?" }' > ${{ env.DOTNET_ROOT }}/myapp/config.json
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
